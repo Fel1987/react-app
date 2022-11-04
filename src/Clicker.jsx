@@ -1,14 +1,19 @@
+import './Clicker.css';
 import { useEffect, useState } from 'react';
 
-function Clicker() {
+function Clicker({ keyName, color = 'green' }) {
   const [count, setCount] = useState(
-    Number(localStorage.getItem('count') ?? 0)
+    Number(localStorage.getItem(keyName) ?? 0)
   );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem(keyName);
+    };
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem('count', count);
+    localStorage.setItem(keyName, count);
   }, [count]);
 
   const clickHandler = () => {
@@ -17,7 +22,7 @@ function Clicker() {
 
   return (
     <div>
-      <p>Count is : {count}</p>
+      <p style={{ color: color }}>Count is : {count}</p>
       <button onClick={clickHandler}>Click Me!</button>
     </div>
   );
