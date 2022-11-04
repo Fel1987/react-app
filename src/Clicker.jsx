@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 
 function Clicker() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(
+    Number(localStorage.getItem('count') ?? 0)
+  );
 
-  useEffect(() => {
-    const savedCount = parseInt(localStorage.getItem('count') ?? 0);
-    setCount(savedCount);
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     localStorage.setItem('count', count);
