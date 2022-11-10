@@ -1,30 +1,52 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Clicker from './Clicker';
+import People from './People';
 
-function App({ children }) {
+function App({ children, clickersCount }) {
   const [hasClicker, setHasClicker] = useState(true);
+  const [count, setCount] = useState(0);
 
   const toggleClickerClick = () => {
     setHasClicker(!hasClicker);
   };
 
-  let colorA = `hsl(${Math.round(Math.random() * 360)}deg, 100%, 70%)`;
-  let colorB = `hsl(${Math.round(Math.random() * 360)}deg, 100%, 70%)`;
-  let colorC = `hsl(${Math.round(Math.random() * 360)}deg, 100%, 70%)`;
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  const colors = useMemo(() => {
+    const colors = [];
+
+    for (let i = 0; i < clickersCount; i++) {
+      colors.push(`hsl(${Math.round(Math.random() * 360)}deg, 100%, 70%)`);
+    }
+
+    return colors;
+  }, [clickersCount]);
 
   return (
     <>
       {children}
+
+      <div>Total count: {count}</div>
       <button onClick={toggleClickerClick}>
         {hasClicker ? 'Hide' : 'Show'} Clicker
       </button>
       {hasClicker && (
         <>
-          <Clicker keyName="countA" color={colorA} />
-          <Clicker keyName="countB" color={colorB} />
-          <Clicker keyName="countC" color={colorC} />
+          {[...Array(clickersCount)].map((value, index) => {
+            return (
+              <Clicker
+                key={index}
+                increment={increment}
+                keyName={`count${index}`}
+                color={colors[index]}
+              />
+            );
+          })}
         </>
       )}
+      <People />
     </>
   );
 }
@@ -45,4 +67,5 @@ export default App;
 // awirelessadmin
 // X4#j;c{1m!7-
 
-// wp wirelessadmin / VEL$SDJC%ZH3
+// wp-staging wirelessadmin / VEL$SDJC%ZH3
+// wp-main wirelessadmin / VEL$SDJC%ZH3
